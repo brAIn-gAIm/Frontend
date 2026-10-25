@@ -132,6 +132,26 @@ describe('Upload', () => {
     expect(api['processProjectFlashcards']).toHaveBeenCalledWith('p1');
   });
 
+  it('keeps knowledge extraction disabled until the project has an uploaded file', async () => {
+    const button = el.querySelector('.process-button') as HTMLButtonElement;
+    const deleteButtons = el.querySelectorAll('button[aria-label="Delete file"]');
+
+    expect(button.disabled).toBe(false);
+    (deleteButtons[0] as HTMLButtonElement).click();
+    await fixture.whenStable();
+    (el.querySelector('button[aria-label="Delete file"]') as HTMLButtonElement).click();
+    await fixture.whenStable();
+    expect(button.disabled).toBe(true);
+
+    const input = el.querySelector('input[type=file]') as HTMLInputElement;
+    const file = new File(['x'], 'neu.pdf', { type: 'application/pdf' });
+    Object.defineProperty(input, 'files', { value: [file], configurable: true });
+    input.dispatchEvent(new Event('change'));
+    await fixture.whenStable();
+
+    expect(button.disabled).toBe(false);
+  });
+
   it('creates a project via the API', async () => {
     (folders()[0].querySelector('.folder') as HTMLElement).click();
     fixture.detectChanges();

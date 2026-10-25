@@ -68,6 +68,7 @@ export class Upload implements OnInit {
   protected readonly selected = computed(
     () => this.projects().find((project) => project.id === this.selectedId()) ?? null,
   );
+  protected readonly hasUploadedFiles = computed(() => (this.selected()?.files.length ?? 0) > 0);
 
   ngOnInit(): void {
     forkJoin({
@@ -182,13 +183,14 @@ export class Upload implements OnInit {
         this.patchProject(projectId, {
           files: [...(this.findProject(projectId)?.files ?? []), toFile(attachment)],
         });
+        this.flashcardsRequested.set(false);
       }
     });
   }
 
   protected async processKnowledge(): Promise<void> {
     const projectId = this.selectedId();
-    if (!projectId || this.flashcardsRequested() || this.busy()) {
+    if (!projectId || !this.hasUploadedFiles() || this.flashcardsRequested() || this.busy()) {
       return;
     }
     this.flashcardsRequested.set(true);

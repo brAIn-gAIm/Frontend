@@ -78,7 +78,7 @@
           <button
               class="process-button"
               type="button"
-              [disabled]="busy() || flashcardsRequested()"
+              [disabled]="busy() || flashcardsRequested() || !hasUploadedFiles()"
               [class.processing]="processingFlashcards()"
               [class.requested]="flashcardsRequested()"
               [attr.aria-label]="
