@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: ghcr.io/brain-gaim/frontend:0.2.145
+    image: ghcr.io/brain-gaim/frontend:0.2.146
     container_name: frontend
     restart: unless-stopped
     ports:
