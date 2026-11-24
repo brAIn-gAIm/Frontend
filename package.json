@@ -1,6 +1,6 @@
 {
   "name": "braingain",
-  "version": "0.2.165",
+  "version": "0.2.166",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
